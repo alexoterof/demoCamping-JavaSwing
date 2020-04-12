@@ -1,5 +1,6 @@
 package vista;
 
+import entradasalidaDatos.ParametrosIO;
 import controlador.*;
 import java.awt.Color;
 import java.util.Map;
@@ -105,6 +106,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         parametrosBoton = new javax.swing.JButton();
         ayudaBoton = new javax.swing.JButton();
         salirBoton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,34 +141,39 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         Botonero.setPreferredSize(new java.awt.Dimension(800, 100));
 
-        parametrosBoton.setText("jButton1");
+        parametrosBoton.setText("Parámetros");
 
-        ayudaBoton.setText("jButton2");
+        ayudaBoton.setText("Ayuda");
 
-        salirBoton.setText("jButton3");
+        salirBoton.setText("About");
+
+        jButton1.setText("Salir");
 
         javax.swing.GroupLayout BotoneroLayout = new javax.swing.GroupLayout(Botonero);
         Botonero.setLayout(BotoneroLayout);
         BotoneroLayout.setHorizontalGroup(
             BotoneroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BotoneroLayout.createSequentialGroup()
-                .addContainerGap(188, Short.MAX_VALUE)
+                .addContainerGap(260, Short.MAX_VALUE)
                 .addComponent(parametrosBoton)
                 .addGap(18, 18, 18)
                 .addComponent(ayudaBoton)
                 .addGap(18, 18, 18)
                 .addComponent(salirBoton)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(261, Short.MAX_VALUE))
         );
         BotoneroLayout.setVerticalGroup(
             BotoneroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BotoneroLayout.createSequentialGroup()
-                .addContainerGap(68, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(BotoneroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(parametrosBoton)
                     .addComponent(ayudaBoton)
-                    .addComponent(salirBoton))
-                .addContainerGap(102, Short.MAX_VALUE))
+                    .addComponent(salirBoton)
+                    .addComponent(jButton1))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         getContentPane().add(Botonero, java.awt.BorderLayout.PAGE_END);
@@ -214,6 +221,7 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel Botonero;
     private javax.swing.JPanel GridParcelas;
     private javax.swing.JButton ayudaBoton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton parametrosBoton;
     private javax.swing.JButton salirBoton;

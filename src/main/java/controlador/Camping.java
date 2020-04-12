@@ -5,6 +5,8 @@
  */
 package controlador;
 
+import entradasalidaDatos.Facturacion;
+import entradasalidaDatos.ParametrosIO;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
@@ -16,6 +18,7 @@ import vista.FramePrincipal;
  * @author alexoterof
  */
 public class Camping {
+	//Esto va a ir dentro de param
 	private final int numTiendas = 11;
 	private final int numCaravanas = 20;
 	private final int numBungalows = 49;
@@ -52,18 +55,22 @@ public class Camping {
 		
 	}
 	private void alquilaParcela(Parcela parcelaSeleccionada){
-		String dniInquilino = FramePrincipal.obtenDNI();
-		parcelaSeleccionada.checkIn(dniInquilino);
 		if(parcelaSeleccionada instanceof  Bungalow){
 			int numAdultos = Integer.parseInt(FramePrincipal.obtenNumAdultos()); //Hay que envolver esto con try-catch
 			((Bungalow) parcelaSeleccionada).setNumAdultos(numAdultos);
 		}
+		
+		String dniInquilino = FramePrincipal.obtenDNI();
+		if(dniInquilino != null) parcelaSeleccionada.checkIn(dniInquilino);		
 	}
 	
 	private void liberaParcela(Parcela parcelaSeleccionada){
 		//Llamamos al jpane de factura pasandole los datos
 		double precio = parcelaSeleccionada.checkOut();
-		if(precio != -1) FramePrincipal.muestraFactura(precio);
+		if(precio != -1){
+			FramePrincipal.muestraFactura(precio);
+			Facturacion.factura("");
+		}
 		else FramePrincipal.muestraError("No se puede abandonar la estancia tan pronto"); //Solo pasa en caravana
 	}
 	public String getSParcela(int id){
