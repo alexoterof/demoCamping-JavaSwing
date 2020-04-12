@@ -73,4 +73,15 @@ public class TiendaTest {
 				tienda.checkOut();
 				});
 	}
+	
+	@Test
+	public void testCheckOutECero() {
+		Tienda tienda = new Tienda(10, 20, 7, 0.10, 1);
+		tienda.checkIn("35484573N");
+		
+		// t - 0 Suponemos que la parcela se ha dado de alta por error / reservaCancelada
+		double expResult = 0;
+		double result = tienda.checkOut();
+		assertEquals(expResult, result, 0.1);
+	}
 }

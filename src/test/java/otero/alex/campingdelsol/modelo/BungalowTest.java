@@ -81,5 +81,16 @@ public class BungalowTest {
 				});
 	}
 	
+	@Test
+	public void testCheckOutECero() {
+		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		bungalow.checkIn("35484573N");
+		
+		// t - 0 Suponemos que la parcela se ha dado de alta por error / reservaCancelada
+		double expResult = 0;
+		double result = bungalow.checkOut();
+		assertEquals(expResult, result, 0.1);
+	}
+	
 	
 }

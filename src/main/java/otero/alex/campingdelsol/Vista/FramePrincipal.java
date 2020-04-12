@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package otero.alex.campingdelsol.Vista;
 
 import java.awt.Color;
@@ -13,10 +8,12 @@ import javax.swing.JButton;
  * @author alexoterof
  */
 public class FramePrincipal extends javax.swing.JFrame {
+	//NOTAS
+	//Se permite eliminar una reserva sin coste se hace en el mismo dia de entrada "por si el usuario se equivoca al introducir datos". En ese caso se hace checkOut y se cobran 0€. No se registra.
 	private static final int ANCHO = 8;
 	private static final int ALTO = 10;
 	private JButton[][] arrayParcelas;
-
+	
 	/**
 	 * Creates new form FramePrincipal
 	 */
