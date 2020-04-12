@@ -1,6 +1,6 @@
-package otero.alex.campingdelsol.modelo;
+package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -13,8 +13,8 @@ public class Tienda extends Parcela{
 	private final double descuento;
 	private final double precioElec;
 
-	public Tienda(int id, double precioDia, int estanciaLarga, double descuento, double precioElec) {
-		super(id);
+	public Tienda(double precioDia, int estanciaLarga, double descuento, double precioElec) {
+		super();
 		this.precioDia = precioDia;
 		this.estanciaLarga = estanciaLarga;
 		this.descuento = descuento;
@@ -25,13 +25,15 @@ public class Tienda extends Parcela{
 	
 	@Override
 	public double checkOut(){
-		int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());		
+		//int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDateTime.now());		
+		int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());		
 		if(diasPasados > estanciaLarga) precioDia = precioDia * (1d - descuento);
 		precioDia += precioElec;
 		
 		
 		setDniHuesped(null);
 		setFechaEntrada(null);
+		setOcupada(false);
 		return precioDia * diasPasados;
 	}
 }

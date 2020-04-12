@@ -1,4 +1,4 @@
-package otero.alex.campingdelsol.modelo;
+package modelo;
 
 /**
  *

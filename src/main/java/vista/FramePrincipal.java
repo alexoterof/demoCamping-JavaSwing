@@ -1,8 +1,11 @@
-package otero.alex.campingdelsol.Vista;
+package vista;
 
+import controlador.*;
 import java.awt.Color;
+import java.util.Map;
 import javax.swing.JButton;
-
+import javax.swing.JOptionPane;
+import modelo.Parcela;
 /**
  *
  * @author alexoterof
@@ -12,41 +15,77 @@ public class FramePrincipal extends javax.swing.JFrame {
 	//Se permite eliminar una reserva sin coste se hace en el mismo dia de entrada "por si el usuario se equivoca al introducir datos". En ese caso se hace checkOut y se cobran 0€. No se registra.
 	private static final int ANCHO = 8;
 	private static final int ALTO = 10;
-	private JButton[][] arrayParcelas;
+	private static JButton[][] arrayParcelas;
+	ParametrosIO parametros;
+	Camping camping;
 	
 	/**
 	 * Creates new form FramePrincipal
 	 */
 	public FramePrincipal() {
-		initComponents();
+		parametros = new ParametrosIO();
+		parametros.actualizaParametros();
+		camping = new Camping(parametros);
+		camping.instanciaParcelas();
 		
 		arrayParcelas = new JButton[ANCHO][ALTO];
 		
+		initComponents();
+		iniciaBotones();
+		
+		
+	}
+	private void iniciaBotones(){
 		for (int j = 0; j < ALTO; j++) {
 			for (int i = 0; i < ANCHO; i++) {
 				int casilla = i+1 + 8*j;
 				arrayParcelas[i][j] = new JButton();
 				arrayParcelas[i][j].setFont(new java.awt.Font("Tahoma", 0, 36));
 				arrayParcelas[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
-						@Override
-						public void mouseClicked(java.awt.event.MouseEvent evt) {
-							FActionPerformed(evt);
-							}
-						});
+					@Override
+					public void mouseClicked(java.awt.event.MouseEvent evt) {
+						camping.parcelaClickada(evt);
+						}
+					});
 				arrayParcelas[i][j].setName(casilla + "");
-				arrayParcelas[i][j].setBackground(Color.white);
+				arrayParcelas[i][j].setBackground(Color.LIGHT_GRAY);
 				arrayParcelas[i][j].setText(casilla + "");
 				GridParcelas.add(arrayParcelas[i][j]);
 			}
 		}
 	}
 	
-	private void FActionPerformed(java.awt.event.MouseEvent evt){
-		System.out.println(((JButton) evt.getSource()).getName());
-		
-		
+	public static void actualizaInterfaz(Map<Integer,Parcela> parcelas){
+		for(JButton[] arrayBotones : arrayParcelas){
+			for (JButton boton : arrayBotones){
+				if(parcelas.get(Integer.parseInt(boton.getName())).isOcupada()){
+					boton.setBackground(Color.red);
+				}else{
+					boton.setBackground(Color.LIGHT_GRAY);
+				}
+			}
+		}
 	}
-
+	
+	public static void muestraFactura(Double precio){
+		JOptionPane.showMessageDialog(null, "El total asciende a " + precio);
+	}
+	
+	public static String obtenDNI(){
+		return JOptionPane.showInputDialog("Introduce el DNI del inquilino responsable");
+	}
+	
+	public static String obtenNumAdultos(){
+		return JOptionPane.showInputDialog("Introduce el numero de adultos");
+	}
+	
+	public static void muestraError(String error){
+		JOptionPane.showMessageDialog(null, error);
+	}
+	
+	
+	
+	
 	/**
 	 * This method is called from within
 	 * the constructor to initialize the

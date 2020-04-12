@@ -1,6 +1,7 @@
 package otero.alex.campingdelsol.modelo;
 
-import java.time.LocalDate;
+import modelo.Caravana;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,7 +23,7 @@ public class CaravanaTest {
 	 */
 	@Test
 	public void testCheckOutTBajaInstantánea() {
-		Caravana caravana = new Caravana(0, 10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
 		
 		double expResult = 0; //No se puede abandonar tan pronto
@@ -33,9 +34,9 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBajaCorta() {
-		Caravana caravana = new Caravana(0, 10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDate.now().minusDays(3));
+		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		double expResult = -1; //No se puede abandonar tan pronto
 		double result = caravana.checkOut();
 		assertEquals(expResult, result, 0.1);
@@ -44,9 +45,9 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBajaLimite() {
-		Caravana caravana = new Caravana(0, 10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDate.now().minusDays(10));
+		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(10));
 		double expResult = -1; //No se puede abandonar tan pronto
 		double result = caravana.checkOut();
 		assertEquals(expResult, result, 0.1);
@@ -54,9 +55,9 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBaja() {
-		Caravana caravana = new Caravana(0, 10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDate.now().minusDays(11));
+		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
 		
 		double expResult = 330; 
 		double result = caravana.checkOut();
@@ -67,11 +68,11 @@ public class CaravanaTest {
 	@Test
 	public void testCheckOutTAlta() {
 		ArrayList<Integer> mesesTAltaAlt = new ArrayList<Integer>();
-		mesesTAltaAlt.add(LocalDate.now().getMonthValue());
+		mesesTAltaAlt.add(LocalDateTime.now().getMonthValue());
 		
-		Caravana caravana = new Caravana(0, 10, mesesTAltaAlt, 30, 40);
+		Caravana caravana = new Caravana(10, mesesTAltaAlt, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDate.now().minusDays(11));
+		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
 		
 		double expResult = 440;
 		double result = caravana.checkOut();

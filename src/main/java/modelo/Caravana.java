@@ -1,6 +1,6 @@
-package otero.alex.campingdelsol.modelo;
+package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -11,8 +11,8 @@ public class Caravana extends Parcela{
 	private final double precioDiaBaja; //TBaja
 	private final double precioDiaAlta;
 
-	public Caravana(int id, int estanciaMinima, ArrayList<Integer> mesesTAlta, double precioDiaBaja, double precioDiaAlta) {
-		super(id);
+	public Caravana(int estanciaMinima, ArrayList<Integer> mesesTAlta, double precioDiaBaja, double precioDiaAlta) {
+		super();
 		this.estanciaMinima = estanciaMinima;
 		this.mesesTAlta = mesesTAlta;
 		this.precioDiaBaja = precioDiaBaja;
@@ -21,7 +21,8 @@ public class Caravana extends Parcela{
 	
 	@Override
 	public double checkOut(){
-		int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());	
+		//int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());	
+		int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());	
 		if(diasPasados <= estanciaMinima && diasPasados > 0) return -1; //No se puede hacer checkOut aun
 		
 		//Estamos teniendo en cuenta la temporada alta solo para el mes de salida. 
@@ -33,6 +34,7 @@ public class Caravana extends Parcela{
 		
 		setDniHuesped(null);
 		setFechaEntrada(null);
+		setOcupada(false);
 		return factura;
 	}
 }

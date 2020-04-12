@@ -1,6 +1,7 @@
 package otero.alex.campingdelsol.modelo;
 
-import java.time.LocalDate;
+import modelo.Bungalow;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,9 +20,9 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutELargaNormal() {
-		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDate.now().minusDays(3));
+		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		
 		double expResult = 120;
 		double result = bungalow.checkOut();
@@ -32,9 +33,9 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutECortaNormal() {
-		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDate.now().minusDays(1));
+		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(1));
 		
 		double expResult = 48;
 		double result = bungalow.checkOut();
@@ -44,9 +45,9 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutEstanciaLimite() {
-		Bungalow bungalow = new Bungalow(45, 3, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(3, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDate.now().minusDays(2));
+		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
 		
 		double expResult = 144;
 		double result = bungalow.checkOut();
@@ -55,9 +56,9 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutParcelaNueva() {
-		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
 		//bungalow.checkIn("35484573N");
-		//bungalow.setFechaEntrada(LocalDate.now().minusDays(3));
+		//bungalow.setFechaEntrada(LocalDate.now().minusSeconds(3));
 		
 
 		//Esperamos un nullPointer
@@ -69,9 +70,9 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutParcelaUsada() {
-		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDate.now().minusDays(3));
+		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		bungalow.checkOut();
 		
 		//Con este test nos aseguramos de que fechaEntrada
@@ -83,7 +84,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutECero() {
-		Bungalow bungalow = new Bungalow(45, 2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		
 		// t - 0 Suponemos que la parcela se ha dado de alta por error / reservaCancelada

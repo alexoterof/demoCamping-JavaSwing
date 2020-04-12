@@ -1,0 +1,13 @@
+#Fichero de config.
+#Sun Apr 12 14:37:01 CEST 2020
+caravanaMesesTAlta=[8, 7]
+tiendaDesc=0.1
+bungalowDia=20
+caravanaMinimaEstancia=10
+tiendaDia=20
+caravanaDiaAlta=40
+tiendaLargaEstancia=7
+tiendaElec=1
+caravanaDiaBaja=30
+bungalowEstanciaCorta=2
+bungalowRecargo=0.2

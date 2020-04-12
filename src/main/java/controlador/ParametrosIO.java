@@ -1,18 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package otero.alex.campingdelsol.modelo;
+package controlador;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Properties;
+import java.util.Scanner;
 
 /**
  *
  * @author alexoterof
  */
-public class Param {
+public class ParametrosIO {
 	//tienda
 	private int tiendaDia;
 	private int tiendaElec;
@@ -30,30 +28,45 @@ public class Param {
 	private int bungalowEstanciaCorta;
 	private double bungalowRecargo;
 
-	public Param() {
+	public ParametrosIO() {
+		//Lo vamos a potencialmente llamar en tiempo de ejecucion
+		//Lo metemos en un metodo para no construir una instancia
+		//nueva cada vez que cambien
+		actualizaParametros(); 
+	}
+	
+	public void actualizaParametros(){
+		Properties config = new Properties();
+		try {
+			config.load(new FileInputStream("config.props"));
+			tiendaDia = Integer.parseInt(config.getProperty("tiendaDia"));
+			tiendaElec = Integer.parseInt(config.getProperty("tiendaElec"));
+			tiendaDesc = Double.valueOf(config.getProperty("tiendaDesc"));
+			tiendaLargaEstancia = Integer.parseInt(config.getProperty("tiendaLargaEstancia"));
+			
+			caravanaDiaBaja = Integer.parseInt(config.getProperty("caravanaDiaBaja"));
+			caravanaDiaAlta = Integer.parseInt(config.getProperty("caravanaDiaAlta"));
+			caravanaMinimaEstancia = Integer.parseInt(config.getProperty("caravanaMinimaEstancia"));
+			caravanaMesesTAlta = traduce(config.getProperty("caravanaMesesTAlta"));
+			
+			bungalowDia = Integer.parseInt(config.getProperty("bungalowDia"));
+			bungalowEstanciaCorta = Integer.parseInt(config.getProperty("bungalowEstanciaCorta"));
+			bungalowRecargo = Double.valueOf(config.getProperty("bungalowRecargo"));
+			
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private ArrayList<Integer> traduce (String input){
+		ArrayList<Integer> lista = new ArrayList<>();
+		Scanner scanner = new Scanner(input);
+		while(scanner.hasNextInt()){
+			lista.add(scanner.nextInt());
+		}
+		return lista;
 	}
 
-	
-	
-	//Constructor para test
-	public Param(int tiendaDia, int tiendaElec, double tiendaDesc, int tiendaLargaEstancia, int caravanaDiaBaja, int caravanaDiaAlta, int caravanaMinimaEstancia, ArrayList<Integer> caravanaMesesTAlta, int bungalowDia, int bungalowEstanciaCorta, double bungalowRecargo) {
-		this.tiendaDia = tiendaDia;
-		this.tiendaElec = tiendaElec;
-		this.tiendaDesc = tiendaDesc;
-		this.tiendaLargaEstancia = tiendaLargaEstancia;
-		this.caravanaDiaBaja = caravanaDiaBaja;
-		this.caravanaDiaAlta = caravanaDiaAlta;
-		this.caravanaMinimaEstancia = caravanaMinimaEstancia;
-		this.caravanaMesesTAlta = caravanaMesesTAlta;
-		this.bungalowDia = bungalowDia;
-		this.bungalowEstanciaCorta = bungalowEstanciaCorta;
-		this.bungalowRecargo = bungalowRecargo;
-	}
-
-	
-
-	
-	
 	public int getTiendaDia() {
 		return tiendaDia;
 	}
@@ -141,11 +154,6 @@ public class Param {
 	public void setBungalowRecargo(double bungalowRecargo) {
 		this.bungalowRecargo = bungalowRecargo;
 	}
-
-	
-	
-
-	
 	
 	
 }

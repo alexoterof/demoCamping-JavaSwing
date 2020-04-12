@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package otero.alex.campingdelsol.modelo;
+package modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -14,11 +14,9 @@ import java.time.LocalDate;
 public abstract class Parcela implements iAlquilable{
 	private boolean ocupada;
 	private String dniHuesped;
-	private LocalDate fechaEntrada;
-	private int id; // necesario??
+	private LocalDateTime fechaEntrada;
 			
-	Parcela(int id){
-		this.id = id;
+	Parcela(){
 		this.ocupada = false;
 		this.dniHuesped = "";
 		this.fechaEntrada = null;
@@ -29,10 +27,20 @@ public abstract class Parcela implements iAlquilable{
 		if(ocupada) return false;
 		this.ocupada = true;
 		this.dniHuesped = dniHuesped;
-		this.fechaEntrada = LocalDate.now();
+		this.fechaEntrada = LocalDateTime.now();
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		String st = "";
+		st += "Class: " + this.getClass().getSimpleName() +
+			  "\nOcupada: " + Boolean.toString(this.ocupada);
+		if(ocupada) st += "\nDNI del huesped: " + dniHuesped +
+					   "\nFecha de entrada: " + fechaEntrada.toString();
+		return st;
+	}
+	
 	public boolean isOcupada() {
 		return ocupada;
 	}
@@ -49,22 +57,11 @@ public abstract class Parcela implements iAlquilable{
 		this.dniHuesped = dniHuesped;
 	}
 
-	public LocalDate getFechaEntrada() {
+	public LocalDateTime getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(LocalDate fechaEntrada) {
+	public void setFechaEntrada(LocalDateTime fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	
-	
 }
