@@ -12,11 +12,13 @@ import java.time.LocalDateTime;
  * @author alexoterof
  */
 public abstract class Parcela implements iAlquilable{
+	private int id;
 	private boolean ocupada;
 	private String dniHuesped;
 	private LocalDateTime fechaEntrada;
 			
-	Parcela(){
+	Parcela(int id){
+		this.id = id;
 		this.ocupada = false;
 		this.dniHuesped = "";
 		this.fechaEntrada = null;
@@ -39,6 +41,10 @@ public abstract class Parcela implements iAlquilable{
 		if(ocupada) st += "\nDNI del huesped: " + dniHuesped +
 					   "\nFecha de entrada: " + fechaEntrada.toString();
 		return st;
+	}
+
+	public int getId() {
+		return id;
 	}
 	
 	public boolean isOcupada() {

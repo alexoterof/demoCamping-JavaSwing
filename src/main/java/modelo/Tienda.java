@@ -13,8 +13,8 @@ public class Tienda extends Parcela{
 	private final double descuento;
 	private final double precioElec;
 
-	public Tienda(double precioDia, int estanciaLarga, double descuento, double precioElec) {
-		super();
+	public Tienda(int id, double precioDia, int estanciaLarga, double descuento, double precioElec) {
+		super(id);
 		this.precioDia = precioDia;
 		this.estanciaLarga = estanciaLarga;
 		this.descuento = descuento;

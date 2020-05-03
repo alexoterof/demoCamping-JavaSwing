@@ -23,7 +23,7 @@ public class CaravanaTest {
 	 */
 	@Test
 	public void testCheckOutTBajaInstantánea() {
-		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(2, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
 		
 		double expResult = 0; //No se puede abandonar tan pronto
@@ -34,7 +34,7 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBajaCorta() {
-		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
 		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		double expResult = -1; //No se puede abandonar tan pronto
@@ -45,7 +45,7 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBajaLimite() {
-		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
 		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(10));
 		double expResult = -1; //No se puede abandonar tan pronto
@@ -55,7 +55,7 @@ public class CaravanaTest {
 	
 	@Test
 	public void testCheckOutTBaja() {
-		Caravana caravana = new Caravana(10, mesesTAlta, 30, 40);
+		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
 		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
 		
@@ -70,7 +70,7 @@ public class CaravanaTest {
 		ArrayList<Integer> mesesTAltaAlt = new ArrayList<Integer>();
 		mesesTAltaAlt.add(LocalDateTime.now().getMonthValue());
 		
-		Caravana caravana = new Caravana(10, mesesTAltaAlt, 30, 40);
+		Caravana caravana = new Caravana(1, 10, mesesTAltaAlt, 30, 40);
 		caravana.checkIn("35484573N");
 		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
 		

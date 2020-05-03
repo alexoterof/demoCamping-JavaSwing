@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
+import entradasalidaDatos.ESParametros;
+import entradasalidaDatos.ESParcelas;
 import entradasalidaDatos.Facturacion;
-import entradasalidaDatos.ParametrosIO;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import modelo.Parametros;
 import javax.swing.JButton;
 import modelo.*;
 import vista.FramePrincipal;
@@ -19,63 +15,87 @@ import vista.FramePrincipal;
  */
 public class Camping {
 	//Esto va a ir dentro de param
-	private final int numTiendas = 11;
+	private final int numTiendas = 10;
 	private final int numCaravanas = 20;
-	private final int numBungalows = 49;
+	private final int numBungalows = 50;
 	
-	//Probablemente refactor aqui a ArrayList pq parcelas ya tiene un id. Se deberia sobrescribir el equals y ya
-	private final Map<Integer, Parcela> parcelas;
-	ParametrosIO p;
-	public Camping(ParametrosIO param) {
-		parcelas = new HashMap<>();
-		this.p = param;
+	private final ArrayList<Parcela> parcelas;
+	public Camping() {
+		ESParametros.getParametrosFichero();
+		parcelas = new ArrayList<>();
+		instanciaParcelas();
+		cargaParcelas();
+		FramePrincipal.actualizaInterfaz(parcelas);
 	}
 	
 	public void instanciaParcelas(){
-		for (int i = 1; i <= numTiendas + numCaravanas +  numBungalows; i++) {
+		for (int i = 0; i < numTiendas + numCaravanas +  numBungalows; i++) {
 			if(i < numTiendas){
-				parcelas.put(i, new Tienda(p.getTiendaDia(), p.getTiendaLargaEstancia(), p.getTiendaDesc(), p.getTiendaElec()));
+				parcelas.add(new Tienda(i, Parametros.getTiendaDia(), 
+									Parametros.getTiendaLargaEstancia(), 
+									Parametros.getTiendaDesc(), 
+									Parametros.getTiendaElec()));
 			}
 			else if(i < numTiendas + numCaravanas) {
-				parcelas.put(i, new Caravana(p.getCaravanaMinimaEstancia(), p.getCaravanaMesesTAlta(), p.getCaravanaDiaBaja(), p.getCaravanaDiaAlta()));
+				parcelas.add(new Caravana(i, Parametros.getCaravanaMinimaEstancia(), 
+									Parametros.getCaravanaMesesTAlta(), 
+									Parametros.getCaravanaDiaBaja(), 
+									Parametros.getCaravanaDiaAlta()));
 			}
 			else {
-				parcelas.put(i, new Bungalow(0, p.getBungalowDia(), p.getBungalowEstanciaCorta(), p.getBungalowRecargo())); //num adultos a cero pq inicializamos vacia
+				//num adultos a cero pq inicializamos vacia
+				parcelas.add(new Bungalow(i, 0, Parametros.getBungalowDia(), 
+									Parametros.getBungalowEstanciaCorta(), 
+									Parametros.getBungalowRecargo())); 
 			}
 		}
+	}
+	
+	public void cargaParcelas(){
+		ArrayList<Parcela> parcelasOcu = new ArrayList<>();
+		parcelasOcu = ESParcelas.leeParcelas();
+		for(Parcela parc : parcelasOcu){
+			parcelas.set(parc.getId(), parc); //Sustituimos as parcelas desocupadas creadas no constructor polas parcelas ocupadas gardadas no arquivo
+		}
+		
 	}
 	
 	public void parcelaClickada(java.awt.event.MouseEvent evt){
-		int id = Integer.parseInt(((JButton) evt.getSource()).getName());
-		Parcela parcelaSeleccionada = parcelas.get(id);
-		if(parcelaSeleccionada.isOcupada())  
-			liberaParcela(parcelaSeleccionada);
-		else  alquilaParcela(parcelaSeleccionada);
+		int id = Integer.parseInt(((JButton) evt.getSource()).getName()) - 1;
+		if(parcelas.get(id).isOcupada()) checkOutParcela(id);
+		else  alquilaParcela(id);
 		FramePrincipal.actualizaInterfaz(parcelas);
-		
 	}
-	private void alquilaParcela(Parcela parcelaSeleccionada){
-		if(parcelaSeleccionada instanceof  Bungalow){
+	private void alquilaParcela(int id){
+		if(parcelas.get(id) instanceof  Bungalow){
 			int numAdultos = Integer.parseInt(FramePrincipal.obtenNumAdultos()); //Hay que envolver esto con try-catch
-			((Bungalow) parcelaSeleccionada).setNumAdultos(numAdultos);
+			((Bungalow) parcelas.get(id)).setNumAdultos(numAdultos);
 		}
-		
 		String dniInquilino = FramePrincipal.obtenDNI();
-		if(dniInquilino != null) parcelaSeleccionada.checkIn(dniInquilino);		
+		if(dniInquilino != null) parcelas.get(id).checkIn(dniInquilino);	
+		ESParcelas.escribeParcelas(getParcelasOcupadas());
 	}
 	
-	private void liberaParcela(Parcela parcelaSeleccionada){
+	private void checkOutParcela(int id){
 		//Llamamos al jpane de factura pasandole los datos
-		double precio = parcelaSeleccionada.checkOut();
+		double precio = parcelas.get(id).checkOut();
 		if(precio != -1){
 			FramePrincipal.muestraFactura(precio);
-			Facturacion.factura("");
-		}
-		else FramePrincipal.muestraError("No se puede abandonar la estancia tan pronto"); //Solo pasa en caravana
+			//Facturacion.factura("");
+		}else FramePrincipal.muestraError("No se puede abandonar la estancia tan pronto"); //Solo pasa en caravana
+		
+		ESParcelas.escribeParcelas(getParcelasOcupadas());
 	}
 	public String getSParcela(int id){
 		return parcelas.get(id).toString();
 	}
 	
-	
+	//Esto se utiliza para obtener las parcelas que necesitamos guardar en el fichero de persistencia
+	public ArrayList<Parcela> getParcelasOcupadas(){
+		ArrayList<Parcela> parcelasOcupadas = new ArrayList<>();
+		for (Parcela parcela : parcelas) {
+			if(parcela.isOcupada()) parcelasOcupadas.add(parcela);
+		}
+		return parcelasOcupadas;
+	}
 }

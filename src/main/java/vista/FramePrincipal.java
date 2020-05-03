@@ -1,9 +1,9 @@
 package vista;
 
-import entradasalidaDatos.ParametrosIO;
-import controlador.*;
+import modelo.Parametros;
+import controlador.Camping;
 import java.awt.Color;
-import java.util.Map;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import modelo.Parcela;
@@ -17,29 +17,26 @@ public class FramePrincipal extends javax.swing.JFrame {
 	private static final int ANCHO = 8;
 	private static final int ALTO = 10;
 	private static JButton[][] arrayParcelas;
-	ParametrosIO parametros;
+	Parametros parametros;
 	Camping camping;
 	
 	/**
 	 * Creates new form FramePrincipal
 	 */
 	public FramePrincipal() {
-		parametros = new ParametrosIO();
-		parametros.actualizaParametros();
-		camping = new Camping(parametros);
-		camping.instanciaParcelas();
 		
-		arrayParcelas = new JButton[ANCHO][ALTO];
+		arrayParcelas = new JButton[ALTO][ANCHO];
 		
 		initComponents();
 		iniciaBotones();
 		
+		camping = new Camping(); 
 		
 	}
 	private void iniciaBotones(){
-		for (int j = 0; j < ALTO; j++) {
-			for (int i = 0; i < ANCHO; i++) {
-				int casilla = i+1 + 8*j;
+		for (int i = 0; i < ALTO; i++) {
+			for (int j = 0; j < ANCHO; j++) {
+				int casilla = j+1 + 8*i;
 				arrayParcelas[i][j] = new JButton();
 				arrayParcelas[i][j].setFont(new java.awt.Font("Tahoma", 0, 36));
 				arrayParcelas[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
@@ -56,13 +53,13 @@ public class FramePrincipal extends javax.swing.JFrame {
 		}
 	}
 	
-	public static void actualizaInterfaz(Map<Integer,Parcela> parcelas){
-		for(JButton[] arrayBotones : arrayParcelas){
-			for (JButton boton : arrayBotones){
-				if(parcelas.get(Integer.parseInt(boton.getName())).isOcupada()){
-					boton.setBackground(Color.red);
+	public static void actualizaInterfaz(ArrayList<Parcela> parcelas){
+		for (int i = 0; i < arrayParcelas.length; i++) {
+			for (int j = 0; j < arrayParcelas[i].length; j++) {
+				if(parcelas.get(i*8 + j).isOcupada()){
+					arrayParcelas[i][j].setBackground(Color.red);
 				}else{
-					boton.setBackground(Color.LIGHT_GRAY);
+					arrayParcelas[i][j].setBackground(Color.LIGHT_GRAY);
 				}
 			}
 		}
@@ -105,11 +102,13 @@ public class FramePrincipal extends javax.swing.JFrame {
         Botonero = new javax.swing.JPanel();
         parametrosBoton = new javax.swing.JButton();
         ayudaBoton = new javax.swing.JButton();
+        aboutBoton = new javax.swing.JButton();
         salirBoton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(800, 800));
 
+        tituloLabel.setMaximumSize(new java.awt.Dimension(800, 100));
         tituloLabel.setPreferredSize(new java.awt.Dimension(800, 100));
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
@@ -121,9 +120,9 @@ public class FramePrincipal extends javax.swing.JFrame {
         tituloLabelLayout.setHorizontalGroup(
             tituloLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tituloLabelLayout.createSequentialGroup()
-                .addContainerGap(316, Short.MAX_VALUE)
+                .addContainerGap(310, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(310, Short.MAX_VALUE))
         );
         tituloLabelLayout.setVerticalGroup(
             tituloLabelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,19 +134,31 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         getContentPane().add(tituloLabel, java.awt.BorderLayout.PAGE_START);
 
+        GridParcelas.setMaximumSize(new java.awt.Dimension(800, 600));
         GridParcelas.setPreferredSize(new java.awt.Dimension(800, 600));
         GridParcelas.setLayout(new java.awt.GridLayout(10, 8));
         getContentPane().add(GridParcelas, java.awt.BorderLayout.CENTER);
 
+        Botonero.setMaximumSize(new java.awt.Dimension(800, 100));
         Botonero.setPreferredSize(new java.awt.Dimension(800, 100));
 
         parametrosBoton.setText("Parámetros");
+        parametrosBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parametrosBotonActionPerformed(evt);
+            }
+        });
 
         ayudaBoton.setText("Ayuda");
 
-        salirBoton.setText("About");
+        aboutBoton.setText("About");
 
-        jButton1.setText("Salir");
+        salirBoton.setText("Salir");
+        salirBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salirBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BotoneroLayout = new javax.swing.GroupLayout(Botonero);
         Botonero.setLayout(BotoneroLayout);
@@ -159,9 +170,9 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(ayudaBoton)
                 .addGap(18, 18, 18)
-                .addComponent(salirBoton)
+                .addComponent(aboutBoton)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(salirBoton)
                 .addContainerGap(261, Short.MAX_VALUE))
         );
         BotoneroLayout.setVerticalGroup(
@@ -171,8 +182,8 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addGroup(BotoneroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(parametrosBoton)
                     .addComponent(ayudaBoton)
-                    .addComponent(salirBoton)
-                    .addComponent(jButton1))
+                    .addComponent(aboutBoton)
+                    .addComponent(salirBoton))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -180,6 +191,16 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void parametrosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parametrosBotonActionPerformed
+        if(JOptionPane.showConfirmDialog(this, "Accede aqui para recargar cosas yoqsetio") == 0){
+		camping = new Camping();
+	}
+    }//GEN-LAST:event_parametrosBotonActionPerformed
+
+    private void salirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBotonActionPerformed
+         this.dispose();
+    }//GEN-LAST:event_salirBotonActionPerformed
 
 	/**
 	 * @param args the command line
@@ -210,18 +231,16 @@ public class FramePrincipal extends javax.swing.JFrame {
 		//</editor-fold>
 
 		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new FramePrincipal().setVisible(true);
-			}
+		java.awt.EventQueue.invokeLater(() -> {
+			new FramePrincipal().setVisible(true);
 		});
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Botonero;
     private javax.swing.JPanel GridParcelas;
+    private javax.swing.JButton aboutBoton;
     private javax.swing.JButton ayudaBoton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton parametrosBoton;
     private javax.swing.JButton salirBoton;

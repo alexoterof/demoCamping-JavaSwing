@@ -11,8 +11,8 @@ public class Caravana extends Parcela{
 	private final double precioDiaBaja; //TBaja
 	private final double precioDiaAlta;
 
-	public Caravana(int estanciaMinima, ArrayList<Integer> mesesTAlta, double precioDiaBaja, double precioDiaAlta) {
-		super();
+	public Caravana(int id, int estanciaMinima, ArrayList<Integer> mesesTAlta, double precioDiaBaja, double precioDiaAlta) {
+		super(id);
 		this.estanciaMinima = estanciaMinima;
 		this.mesesTAlta = mesesTAlta;
 		this.precioDiaBaja = precioDiaBaja;
@@ -29,12 +29,21 @@ public class Caravana extends Parcela{
 		//En las especificaciones no aclara si es para cualquier momento de la estancia
 		//o como se cobraria de ser solo una parte de la estancia
 		double factura;
-		if(mesesTAlta.contains(getFechaEntrada().getMonthValue())) factura = precioDiaAlta * diasPasados;
-		else factura = precioDiaBaja * diasPasados;
-		
-		setDniHuesped(null);
-		setFechaEntrada(null);
-		setOcupada(false);
-		return factura;
+		try {
+			if (mesesTAlta.contains(getFechaEntrada().getMonthValue())) {
+				factura = precioDiaAlta * diasPasados;
+			} else {
+				factura = precioDiaBaja * diasPasados;
+			}
+
+			setDniHuesped(null);
+			setFechaEntrada(null);
+			setOcupada(false);
+			return factura;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return 0;
+		}
 	}
 }

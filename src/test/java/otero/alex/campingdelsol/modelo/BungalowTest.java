@@ -20,7 +20,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutELargaNormal() {
-		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		
@@ -33,7 +33,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutECortaNormal() {
-		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(1));
 		
@@ -45,7 +45,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutEstanciaLimite() {
-		Bungalow bungalow = new Bungalow(3, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 3, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
 		
@@ -56,7 +56,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutParcelaNueva() {
-		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		//bungalow.checkIn("35484573N");
 		//bungalow.setFechaEntrada(LocalDate.now().minusSeconds(3));
 		
@@ -70,7 +70,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutParcelaUsada() {
-		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
 		bungalow.checkOut();
@@ -84,7 +84,7 @@ public class BungalowTest {
 	
 	@Test
 	public void testCheckOutECero() {
-		Bungalow bungalow = new Bungalow(2, 20, 2, 0.2);
+		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
 		
 		// t - 0 Suponemos que la parcela se ha dado de alta por error / reservaCancelada

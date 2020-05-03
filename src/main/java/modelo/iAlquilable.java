@@ -1,10 +1,12 @@
 package modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author alexoterof
  */
-public interface iAlquilable {
+public interface iAlquilable extends Serializable{
 	//checkin marca la parcela como ocupada  
 	boolean checkIn(String dniHuesped);
 	

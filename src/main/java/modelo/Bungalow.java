@@ -18,8 +18,8 @@ public class Bungalow extends Parcela{
 	private final int estanciaDemasiadoCorta;
 	private final double recargo;
 
-	public Bungalow(int numAdultos, double precioDia, int estanciaCorta, double recargo) {
-		super();
+	public Bungalow(int id, int numAdultos, double precioDia, int estanciaCorta, double recargo) {
+		super(id);
 		this.numAdultos = numAdultos;
 		this.precioDia = precioDia;
 		this.estanciaDemasiadoCorta = estanciaCorta;
