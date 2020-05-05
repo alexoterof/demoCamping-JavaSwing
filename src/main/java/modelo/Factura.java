@@ -20,11 +20,13 @@ public class Factura {
 	private final LocalDate fechaEntrada;
 	private double precio;
 	private String lineaFacturacion;
+	private String tipoParcela;
 	public Factura(Parcela parcela) {
 		this.id = parcela.getId();
 		this.ocupada = parcela.isOcupada();
 		this.dniHuesped = parcela.getDniHuesped();
 		this.fechaEntrada = parcela.getFechaEntrada();
+		tipoParcela = parcela.getClass().getSimpleName();
 	}
 
 	public int getId() {
@@ -57,5 +59,9 @@ public class Factura {
 
 	public String getLineaFacturacion() {
 		return lineaFacturacion;
+	}
+	
+	public String getTipoParcela(){
+		return tipoParcela;
 	}
 }

@@ -16,7 +16,7 @@ public class ESFacturacion {
 		       BufferedWriter bfw = new BufferedWriter(fw)){
 			String line = factura.getDniHuesped() + ";" + 
 					factura.getId() + ";" + 
-					factura.getClass().getSimpleName() +  ";" + 
+					factura.getTipoParcela() +  ";" + 
 					factura.getFechaEntrada().format(DateTimeFormatter.ISO_LOCAL_DATE) +  ";" + 
 					LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) +  ";" + 
 					factura.getPrecio() + "\n";
