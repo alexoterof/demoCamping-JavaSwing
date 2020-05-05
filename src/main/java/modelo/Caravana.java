@@ -1,6 +1,7 @@
 package modelo;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -21,8 +22,8 @@ public class Caravana extends Parcela{
 	
 	@Override
 	public double checkOut(){
-		//int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());	
-		int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());	
+		int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());	
+		//int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());	
 		if(diasPasados <= estanciaMinima && diasPasados > 0) return -1; //No se puede hacer checkOut aun
 		
 		//Estamos teniendo en cuenta la temporada alta solo para el mes de salida. 

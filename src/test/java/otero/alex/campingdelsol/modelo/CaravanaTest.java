@@ -1,7 +1,8 @@
 package otero.alex.campingdelsol.modelo;
 
 import modelo.Caravana;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +37,8 @@ public class CaravanaTest {
 	public void testCheckOutTBajaCorta() {
 		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		//caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		caravana.setFechaEntrada(LocalDate.now().minusDays(3));
 		double expResult = -1; //No se puede abandonar tan pronto
 		double result = caravana.checkOut();
 		assertEquals(expResult, result, 0.1);
@@ -47,7 +49,8 @@ public class CaravanaTest {
 	public void testCheckOutTBajaLimite() {
 		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(10));
+		//caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(10));
+		caravana.setFechaEntrada(LocalDate.now().minusDays(10));
 		double expResult = -1; //No se puede abandonar tan pronto
 		double result = caravana.checkOut();
 		assertEquals(expResult, result, 0.1);
@@ -57,7 +60,8 @@ public class CaravanaTest {
 	public void testCheckOutTBaja() {
 		Caravana caravana = new Caravana(1, 10, mesesTAlta, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
+		//caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
+		caravana.setFechaEntrada(LocalDate.now().minusDays(11));
 		
 		double expResult = 330; 
 		double result = caravana.checkOut();
@@ -68,13 +72,15 @@ public class CaravanaTest {
 	@Test
 	public void testCheckOutTAlta() {
 		ArrayList<Integer> mesesTAltaAlt = new ArrayList<Integer>();
-		mesesTAltaAlt.add(LocalDateTime.now().getMonthValue());
+		//mesesTAltaAlt.add(LocalDateTime.now().getMonthValue());
+		mesesTAltaAlt.add(LocalDate.now().getMonthValue());
 		
 		Caravana caravana = new Caravana(1, 10, mesesTAltaAlt, 30, 40);
 		caravana.checkIn("35484573N");
-		caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
+		//caravana.setFechaEntrada(LocalDateTime.now().minusSeconds(11));
+		caravana.setFechaEntrada(LocalDate.now().minusDays(11));
 		
-		double expResult = 440;
+		double expResult = 330;
 		double result = caravana.checkOut();
 		assertEquals(expResult, result, 0.1);
 		

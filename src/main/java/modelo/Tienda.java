@@ -1,6 +1,7 @@
 package modelo;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -23,8 +24,8 @@ public class Tienda extends Parcela{
 	
 	@Override
 	public double checkOut(){
-		//int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDateTime.now());		
-		int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());		
+		int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDate.now());		
+		//int diasPasados = (int) ChronoUnit.SECONDS.between(this.getFechaEntrada(), LocalDateTime.now());		
 		if(diasPasados > estanciaLarga) precioDia = precioDia * (1d - descuento);
 		precioDia += precioElec;
 		

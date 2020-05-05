@@ -1,7 +1,8 @@
 package otero.alex.campingdelsol.modelo;
 
 import modelo.Bungalow;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +23,8 @@ public class BungalowTest {
 	public void testCheckOutELargaNormal() {
 		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		//bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		bungalow.setFechaEntrada(LocalDate.now().minusDays(3));
 		
 		double expResult = 120;
 		double result = bungalow.checkOut();
@@ -35,7 +37,8 @@ public class BungalowTest {
 	public void testCheckOutECortaNormal() {
 		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(1));
+		//bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(1));
+		bungalow.setFechaEntrada(LocalDate.now().minusDays(1));
 		
 		double expResult = 48;
 		double result = bungalow.checkOut();
@@ -47,7 +50,8 @@ public class BungalowTest {
 	public void testCheckOutEstanciaLimite() {
 		Bungalow bungalow = new Bungalow(1, 3, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
+		//bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
+		bungalow.setFechaEntrada(LocalDate.now().minusDays(2));
 		
 		double expResult = 144;
 		double result = bungalow.checkOut();
@@ -72,7 +76,8 @@ public class BungalowTest {
 	public void testCheckOutParcelaUsada() {
 		Bungalow bungalow = new Bungalow(1, 2, 20, 2, 0.2);
 		bungalow.checkIn("35484573N");
-		bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		//bungalow.setFechaEntrada(LocalDateTime.now().minusSeconds(3));
+		bungalow.setFechaEntrada(LocalDate.now().minusDays(3));
 		bungalow.checkOut();
 		
 		//Con este test nos aseguramos de que fechaEntrada

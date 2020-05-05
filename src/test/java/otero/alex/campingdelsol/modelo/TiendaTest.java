@@ -1,7 +1,8 @@
 package otero.alex.campingdelsol.modelo;
 
 import modelo.Tienda;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,8 @@ public class TiendaTest {
 	public void testCheckOutECorta() {
 		Tienda tienda = new Tienda(1, 20, 7, 0.10, 1);
 		tienda.checkIn("35484573N");
-		tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
+		//tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(2));
+		tienda.setFechaEntrada(LocalDate.now().minusDays(2));
 		
 		double expResult = 42;
 		double result = tienda.checkOut();
@@ -34,7 +36,8 @@ public class TiendaTest {
 	public void testCheckOutELimite() {
 		Tienda tienda = new Tienda(1, 20, 7, 0.10, 1);
 		tienda.checkIn("35484573N");
-		tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(7));
+		//tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(7));
+		tienda.setFechaEntrada(LocalDate.now().minusDays(7));
 		
 		double expResult = 147;
 		double result = tienda.checkOut();
@@ -44,7 +47,8 @@ public class TiendaTest {
 	public void testCheckOutELarga() {
 		Tienda tienda = new Tienda(1, 20, 7, 0.10, 1);
 		tienda.checkIn("35484573N");
-		tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(8));
+		//tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(8));
+		tienda.setFechaEntrada(LocalDate.now().minusDays(8));
 		
 		double expResult = 152;
 		double result = tienda.checkOut();
@@ -65,7 +69,8 @@ public class TiendaTest {
 	public void testCheckOutParcelaUsada(){
 		Tienda tienda = new Tienda(1, 20, 7, 0.10, 1);
 		tienda.checkIn("35484573N");
-		tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(7));
+		//tienda.setFechaEntrada(LocalDateTime.now().minusSeconds(7));
+		tienda.setFechaEntrada(LocalDate.now().minusDays(7));
 		tienda.checkOut();
 		
 		//Con este test nos aseguramos de que fechaEntrada

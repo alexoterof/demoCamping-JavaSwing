@@ -5,7 +5,8 @@
  */
 package modelo;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Factura {
 	private final int id;
 	private final boolean ocupada;
 	private final String dniHuesped;
-	private final LocalDateTime fechaEntrada;
+	//private final LocalDateTime fechaEntrada;
+	private final LocalDate fechaEntrada;
 	private double precio;
 	private String lineaFacturacion;
 	public Factura(Parcela parcela) {
@@ -37,9 +39,14 @@ public class Factura {
 		return dniHuesped;
 	}
 	
-	public LocalDateTime getFechaEntrada() {
+	public LocalDate getFechaEntrada() {
 		return fechaEntrada;
 	}
+	
+//	public LocalDateTime getFechaEntrada() {
+//		return fechaEntrada;
+//	}
+	
 	public double getPrecio() {
 		return precio;
 	}

@@ -5,7 +5,8 @@
  */
 package modelo;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -15,7 +16,8 @@ public abstract class Parcela implements iAlquilable{
 	private int id;
 	private boolean ocupada;
 	private String dniHuesped;
-	private LocalDateTime fechaEntrada;
+	//private LocalDateTime fechaEntrada;
+	private LocalDate fechaEntrada;
 			
 	Parcela(int id){
 		this.id = id;
@@ -29,7 +31,8 @@ public abstract class Parcela implements iAlquilable{
 		if(ocupada) return false;
 		this.ocupada = true;
 		this.dniHuesped = dniHuesped;
-		this.fechaEntrada = LocalDateTime.now();
+		//this.fechaEntrada = LocalDateTime.now();
+		this.fechaEntrada = LocalDate.now();
 		return true;
 	}
 
@@ -62,12 +65,19 @@ public abstract class Parcela implements iAlquilable{
 	public void setDniHuesped(String dniHuesped) {
 		this.dniHuesped = dniHuesped;
 	}
-
-	public LocalDateTime getFechaEntrada() {
+	
+	public LocalDate getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public void setFechaEntrada(LocalDateTime fechaEntrada) {
+	public void setFechaEntrada(LocalDate fechaEntrada) {
 		this.fechaEntrada = fechaEntrada;
 	}
+//	public LocalDateTime getFechaEntrada() {
+//		return fechaEntrada;
+//	}
+//
+//	public void setFechaEntrada(LocalDateTime fechaEntrada) {
+//		this.fechaEntrada = fechaEntrada;
+//	}
 }
