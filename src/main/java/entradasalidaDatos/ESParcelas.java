@@ -24,7 +24,7 @@ import modelo.Parcela;
  */
 public class ESParcelas {
 	private final static String rutaParcelas = "data" + System.getProperty("file.separator") + "parcelas.dat";
-	public static void escribeParcelas(ArrayList<Parcela> parcelasAEscribir){
+	public static void writeParcelas(ArrayList<Parcela> parcelasAEscribir){
 		try (FileOutputStream fos = new FileOutputStream(rutaParcelas);
 			BufferedOutputStream bos = new BufferedOutputStream(fos); 
 			ObjectOutputStream oos = new ObjectOutputStream(bos)) {
@@ -51,10 +51,11 @@ public class ESParcelas {
 			eof = true;
 		} catch (IOException ex) {
 			System.err.println("Error:" + ex.getMessage());
+			System.out.println("Se carga el programa con la memoria vacia.");
+			System.out.println("parcelas.dat creado");
 		} catch (ClassNotFoundException ex) {
 			Logger.getLogger(ESParcelas.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
 		return parcelasOcupadas;
 	}
 }

@@ -154,11 +154,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ayudaBotonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="aboutBoton">
           <Properties>
             <Property name="text" type="java.lang.String" value="About"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="aboutBotonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="salirBoton">
           <Properties>

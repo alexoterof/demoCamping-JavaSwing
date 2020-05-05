@@ -42,7 +42,4 @@ public class Bungalow extends Parcela{
 				diasPasados * numAdultos * precioDia * (1 + recargo) :
 				diasPasados * numAdultos * precioDia;
 	}
-
-	
-	
 }

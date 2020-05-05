@@ -11,8 +11,6 @@ import java.util.*;
  * @author alexoterof
  */
 
-//Ejecutar esta clase por separado para crear y rellenar 
-//el fichero properties
 public class ESParametros {
 	public static void getParametrosFichero(){
 		Properties config = new Properties();
@@ -61,7 +59,7 @@ public class ESParametros {
 		}
 	}
 	
-	//A esto solo se le deberia llamar en caso de no encontrar el archivo
+	//A esto solo se le deberia llamar en caso de no encontrar el archivo. Son los valores por defecto de nuestro programa
 	public static void escribeProperties(){
 		//Array de meses de TAlta -> 
 		ArrayList<Integer> caravanaMesesTAlta = new ArrayList<>();

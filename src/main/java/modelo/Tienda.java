@@ -21,8 +21,6 @@ public class Tienda extends Parcela{
 		this.precioElec = precioElec;
 	}
 	
-	
-	
 	@Override
 	public double checkOut(){
 		//int diasPasados = (int) ChronoUnit.DAYS.between(this.getFechaEntrada(), LocalDateTime.now());		

@@ -12,17 +12,13 @@ import modelo.Parcela;
  * @author alexoterof
  */
 public class FramePrincipal extends javax.swing.JFrame {
-	//NOTAS
-	//Se permite eliminar una reserva sin coste se hace en el mismo dia de entrada "por si el usuario se equivoca al introducir datos". En ese caso se hace checkOut y se cobran 0€. No se registra.
 	private static final int ANCHO = 8;
 	private static final int ALTO = 10;
 	private static JButton[][] arrayParcelas;
 	Parametros parametros;
 	Camping camping;
 	
-	/**
-	 * Creates new form FramePrincipal
-	 */
+
 	public FramePrincipal() {
 		
 		arrayParcelas = new JButton[ALTO][ANCHO];
@@ -80,9 +76,6 @@ public class FramePrincipal extends javax.swing.JFrame {
 	public static void muestraError(String error){
 		JOptionPane.showMessageDialog(null, error);
 	}
-	
-	
-	
 	
 	/**
 	 * This method is called from within
@@ -150,8 +143,18 @@ public class FramePrincipal extends javax.swing.JFrame {
         });
 
         ayudaBoton.setText("Ayuda");
+        ayudaBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ayudaBotonActionPerformed(evt);
+            }
+        });
 
         aboutBoton.setText("About");
+        aboutBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutBotonActionPerformed(evt);
+            }
+        });
 
         salirBoton.setText("Salir");
         salirBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +196,15 @@ public class FramePrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void parametrosBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_parametrosBotonActionPerformed
-        if(JOptionPane.showConfirmDialog(this, "Accede aqui para recargar cosas yoqsetio") == 0){
+	String path = this.getClass().
+				getProtectionDomain().
+				getCodeSource().
+				getLocation().
+				getPath();
+	path = "Cambia la configuracion en " + 
+			path.substring(0, path.lastIndexOf(System.getProperty("file.separator"))) + System.getProperty("file.separator") + 
+			"config.props y luego pulsa \"si\".";
+	if(JOptionPane.showConfirmDialog(this, path) == 0){
 		camping = new Camping();
 	}
     }//GEN-LAST:event_parametrosBotonActionPerformed
@@ -201,6 +212,20 @@ public class FramePrincipal extends javax.swing.JFrame {
     private void salirBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirBotonActionPerformed
          this.dispose();
     }//GEN-LAST:event_salirBotonActionPerformed
+
+    private void aboutBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutBotonActionPerformed
+        JOptionPane.showMessageDialog(this, "Autor : Alex Otero \n" + 
+								"E-mail de contacto: alexoterof@gmail.com\n" +
+								"Fecha: 4-5-2020\n" +
+								"Version: 0.1");
+    }//GEN-LAST:event_aboutBotonActionPerformed
+
+    private void ayudaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ayudaBotonActionPerformed
+        JOptionPane.showMessageDialog(this, "Las casillas grises son parcelas libres. " +
+								"\nLas rojas son parcelas ocupadas. " + 
+								"\nSi clickas en una parcela te permite alojar \na alguien-facturar la visita." +  
+								"\nEl boton parametros te indica qué archivo \ndebes modificar si quieres cambiar los precios.");
+    }//GEN-LAST:event_ayudaBotonActionPerformed
 
 	/**
 	 * @param args the command line

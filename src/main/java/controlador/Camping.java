@@ -2,7 +2,7 @@ package controlador;
 
 import entradasalidaDatos.ESParametros;
 import entradasalidaDatos.ESParcelas;
-import entradasalidaDatos.Facturacion;
+import entradasalidaDatos.ESFacturacion;
 import java.util.ArrayList;
 import modelo.Parametros;
 import javax.swing.JButton;
@@ -18,17 +18,16 @@ public class Camping {
 	private final int numTiendas = 10;
 	private final int numCaravanas = 20;
 	private final int numBungalows = 50;
-	
 	private final ArrayList<Parcela> parcelas;
+	
 	public Camping() {
 		ESParametros.getParametrosFichero();
 		parcelas = new ArrayList<>();
-		instanciaParcelas();
 		cargaParcelas();
 		FramePrincipal.actualizaInterfaz(parcelas);
 	}
 	
-	public void instanciaParcelas(){
+	public void cargaParcelas(){
 		for (int i = 0; i < numTiendas + numCaravanas +  numBungalows; i++) {
 			if(i < numTiendas){
 				parcelas.add(new Tienda(i, Parametros.getTiendaDia(), 
@@ -49,48 +48,49 @@ public class Camping {
 									Parametros.getBungalowRecargo())); 
 			}
 		}
-	}
-	
-	public void cargaParcelas(){
 		ArrayList<Parcela> parcelasOcu = new ArrayList<>();
 		parcelasOcu = ESParcelas.leeParcelas();
 		for(Parcela parc : parcelasOcu){
-			parcelas.set(parc.getId(), parc); //Sustituimos as parcelas desocupadas creadas no constructor polas parcelas ocupadas gardadas no arquivo
+			parcelas.set(parc.getId(), parc); //Sustituimos as parcelas desocupadas creadas polas parcelas ocupadas gardadas no arquivo
 		}
-		
 	}
 	
 	public void parcelaClickada(java.awt.event.MouseEvent evt){
 		int id = Integer.parseInt(((JButton) evt.getSource()).getName()) - 1;
+		//Cuando clickamos la parcela bien hacemos checkIn o hacemos checkOut
 		if(parcelas.get(id).isOcupada()) checkOutParcela(id);
-		else  alquilaParcela(id);
+		else  checkInParcela(id);
 		FramePrincipal.actualizaInterfaz(parcelas);
 	}
-	private void alquilaParcela(int id){
-		if(parcelas.get(id) instanceof  Bungalow){
-			int numAdultos = Integer.parseInt(FramePrincipal.obtenNumAdultos()); //Hay que envolver esto con try-catch
-			((Bungalow) parcelas.get(id)).setNumAdultos(numAdultos);
+	
+	private void checkInParcela(int id){
+		try{
+			if(parcelas.get(id) instanceof  Bungalow){
+				int numAdultos = Integer.parseInt(FramePrincipal.obtenNumAdultos()); //Hay que envolver esto con try-catch
+				((Bungalow) parcelas.get(id)).setNumAdultos(numAdultos);
+			}
+			String dniInquilino = FramePrincipal.obtenDNI();
+			if(dniInquilino != null) parcelas.get(id).checkIn(dniInquilino);	
+			ESParcelas.writeParcelas(getParcelasOcupadas());
+		}catch(NumberFormatException e){
+			//Nada salta cuando el cliente cancela alquilar al bungalow en el primer msg(El que pide el numero de adultos)
 		}
-		String dniInquilino = FramePrincipal.obtenDNI();
-		if(dniInquilino != null) parcelas.get(id).checkIn(dniInquilino);	
-		ESParcelas.escribeParcelas(getParcelasOcupadas());
 	}
 	
 	private void checkOutParcela(int id){
-		//Llamamos al jpane de factura pasandole los datos
+		Factura factura = new Factura(parcelas.get(id));
 		double precio = parcelas.get(id).checkOut();
-		if(precio != -1){
+		if(precio != -1){//Solo pasa en caravana. Cuando se abandona antes del minimo de dias
+			factura.setPrecio(precio);
+			ESFacturacion.addFactura(factura);
+			ESParcelas.writeParcelas(getParcelasOcupadas());
 			FramePrincipal.muestraFactura(precio);
-			//Facturacion.factura("");
-		}else FramePrincipal.muestraError("No se puede abandonar la estancia tan pronto"); //Solo pasa en caravana
-		
-		ESParcelas.escribeParcelas(getParcelasOcupadas());
-	}
-	public String getSParcela(int id){
-		return parcelas.get(id).toString();
+		}else FramePrincipal.muestraError("No se puede abandonar la estancia tan pronto"); 
 	}
 	
-	//Esto se utiliza para obtener las parcelas que necesitamos guardar en el fichero de persistencia
+	//Esto se utiliza para obtener las parcelas que necesitamos guardar en el fichero de persistencia. 
+	//Solo guardamos las que estan ocupadas (Por si luego los precios de las desocupadas cambian.
+	//Las que ya se alquilaron mantienen la tarifa hasta la facturacion
 	public ArrayList<Parcela> getParcelasOcupadas(){
 		ArrayList<Parcela> parcelasOcupadas = new ArrayList<>();
 		for (Parcela parcela : parcelas) {

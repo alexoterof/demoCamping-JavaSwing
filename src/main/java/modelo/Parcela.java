@@ -23,7 +23,7 @@ public abstract class Parcela implements iAlquilable{
 		this.dniHuesped = "";
 		this.fechaEntrada = null;
 	}
-
+	
 	@Override
 	public boolean checkIn(String dniHuesped){
 		if(ocupada) return false;
